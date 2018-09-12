@@ -1,32 +1,38 @@
 angular.module('todoApp', [])
   .controller('TodoListController', function() {
+
     var todoList = this;
     todoList.todos = [
       {item:'learn AngularJS', done:true},
       {item:'build an AngularJS app', done:false}];
+
     todoList.addTodo = function() {
       todoList.todos.push({item:todoList.todoText, done:false});
+      window.localStorage.setItem( todoList.todoText, false);
       todoList.todoText = '';
     };
 
     todoList.showAll = function() {
-      todoList.todos = todoList.todos
+      for (var i=0; i < todoList.todos.length; i++)
+        window.localStorage.setItem(todoList.todos[i].item, todoList.todos[i].done);//!!!!!!!!
+      var items = JSON.stringify(window.localStorage);
+      console.log(allStorage());
+      todoList.todos = [];
+
+      angular.forEach(items, function(todo) {
+        todoList.todos.push(todo);
+      });
+
     };
 
     todoList.showCompleted = function() {
-      list = JSON.stringify({item:'learn AngularJS', done:true});
-
-      window.localStorage.setItem(1, list);
-
-
-
-
-
-      //var oldTodos = todoList.todos;
-      //todoList.todos = [];
-      //angular.forEach(oldTodos, function(todo) {
-        //if (!todo.done) todoList.todos.push(todo);
-      //});
+      for (var i=0; i < todoList.todos.length; i++)
+        window.localStorage.setItem(todoList.todos[i].item, todoList.todos[i].done);//!!!!!!!!
+      var oldTodos = todoList.todos;
+      todoList.todos = [];
+      angular.forEach(oldTodos, function(todo) {
+        if (!todo.done) todoList.todos.push(todo);
+      });
     };
 
 
@@ -50,3 +56,19 @@ angular.module('todoApp', [])
       });
     };
   });
+
+
+function allStorage() {
+
+  var archive = [], // Notice change here
+    keys = Object.keys(window.localStorage),
+    i = keys.length;
+  while ( i-- ) {
+    var item =  {
+      item: window.localStorage.getItem(keys[i]), done: localStorage.key(i)
+    };
+    archive[i] = item;
+  }
+
+  return archive;
+}
