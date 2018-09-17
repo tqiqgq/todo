@@ -1,36 +1,41 @@
 <!doctype html>
 <html ng-app="todoApp">
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+
   <link rel="stylesheet" href="node_modules/todomvc-common/base.css">
   <link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
-  <script src="js/bootstrap.js"></script>
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <script src="todo.js"></script>
   <link rel="stylesheet" href="todo.css">
-</head>
-<body background-color="lightskyblue">
 
-<h2>Todo</h2>
+</head>
+
+
+<h1>todos</h1>
 <div ng-controller="TodoListController as todoList" class="flex-container">
   <span>{{todoList.remaining()}} of {{todoList.todos.length}} remaining</span>
-  [ <a href="" ng-click="todoList.archive()">archive</a> ]
+  <div>[ <a href="" ng-click="todoList.archive()">archive</a> ] </div>
   <ul class="unstyled" >
     <li ng-repeat="todo in todoList.todos">
       <label class="checkbox">
-        <input type="checkbox" ng-model="todo.done">
+        <input type="checkbox" ng-model="todo.done" ng-click="todoList.checkDone(todo)">
         <span class="done-{{todo.done}}">{{todo.item}}</span>
       </label>
     </li>
   </ul>
-    <button ng-click="todoList.showAll()">all</button>
-    <button ng-click="todoList.showCompleted()">completed</button>
-    <button ng-click="todoList.puh()">active</button>
+  <div class="flex-buttons">
+    <div class="button-click"><button ng-click="todoList.showAll()">all</button></div>
+    <div class="button-click"><button ng-click="todoList.showCompleted()">completed</button></div>
+    <div class="button-click"><button ng-click="todoList.showActive()">active</button></div>
+  </div>
+
   <form ng-submit="todoList.addTodo()" class="form-group">
     <input type="text" ng-model="todoList.todoText"  size="30" id="dynamic-label-input"
            placeholder="add new todo here">
-    <input class="btn-primary" type="submit" value="add">
+    <input class="btn-primary" type="submit" value="Add todo item">
   </form>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.11/angular.min.js"></script>
+<script src="todo.js"></script>
 </body>
 </html>
